@@ -13,6 +13,7 @@ export default function Input() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1, // ocupa todo o espaço disponivel
     backgroundColor: COLORS.gray700, // cor de fundo
     height: 54, //altura
     padding: 16, // espaçamento interno
