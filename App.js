@@ -13,9 +13,11 @@ import Input from "./src/components/Input";
 import Button from "./src/components/Button";
 import EmptyIcon from "./src/assets/clipboard.png";
 import Item from "./src/components/Item";
+import { useState } from "react";
 
 export default function App() {
   const list = ["Marcos", "Vitor", "Nicholas"];
+  const [task, setTask] = useState("");
 
   const renderEmptyList = () => (
     <View style={styles.empty}>
@@ -27,6 +29,10 @@ export default function App() {
     </View>
   );
 
+  function handleAddItem() {
+    console.log("vc ta adicionando: ", task);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -34,8 +40,11 @@ export default function App() {
       <Header />
 
       <View style={styles.input}>
-        <Input />
-        <Button />
+        <Input
+          defaultValue={task}
+          onChangeText={(textoDoInput) => setTask(textoDoInput)}
+        />
+        <Button onPress={handleAddItem} />
       </View>
 
       <FlatList

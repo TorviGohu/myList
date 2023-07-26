@@ -1,10 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { COLORS } from "../../theme/colors";
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 
-export default function Button() {
+export default function Button({ ...rest }) {
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.5}>
+    <TouchableOpacity style={styles.container} activeOpacity={0.5} {...rest}>
       <Feather name="plus-circle" size={18} color="white" />
     </TouchableOpacity>
   );
@@ -21,6 +21,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderColor: COLORS.black700,
     borderWidth: 1,
-
   },
 });
