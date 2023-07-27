@@ -3,13 +3,19 @@ import { COLORS } from "../../theme/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 
-export default function Item({ data }) {
+export default function Item({ data, checked }) {
+  //  checked é uma função que vem do componente pai(espera receber um item selecionado)
   const [selected, setSelected] = useState(false);
+
+  function handleSelect(itemselected) {
+    setSelected(!selected);
+    checked(itemselected); // envia o item selecionado para a função
+  }
 
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => setSelected(!selected)}
+      onPress={() => handleSelect(data)} // envia o item selecionado pra função
       activeOpacity={0.7}
     >
       <Ionicons
