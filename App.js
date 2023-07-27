@@ -13,9 +13,11 @@ import Input from "./src/components/Input";
 import Button from "./src/components/Button";
 import EmptyIcon from "./src/assets/clipboard.png";
 import Item from "./src/components/Item";
+import { useState } from "react";
 
 export default function App() {
-  const list = ["Marcos", "Vitor", "Nicholas"];
+  const [list, setList] = useState([]);
+  const [task, setTask] = useState("");
 
   const renderEmptyList = () => (
     <View style={styles.empty}>
@@ -27,6 +29,21 @@ export default function App() {
     </View>
   );
 
+  function handleAddItem() {
+    if (task.trim() === "") return;
+    // se o input estiver vazio, não adiciona nada, return sai da função
+    // trim() remove os espaços em branco do início e do fim da string
+
+    if (list.includes(task)) {
+      alert("Você já adicionou essa tarefa");
+      return;
+    }
+
+    setList((currentState) => [...currentState, task]);
+    //limpar input após adicionar
+    setTask("");
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -34,8 +51,11 @@ export default function App() {
       <Header />
 
       <View style={styles.input}>
-        <Input />
-        <Button />
+        <Input
+          defaultValue={task}
+          onChangeText={(textoDoInput) => setTask(textoDoInput)}
+        />
+        <Button onPress={handleAddItem} />
       </View>
 
       <FlatList
@@ -43,6 +63,7 @@ export default function App() {
         keyExtractor={(item) => item}
         renderItem={({ item }) => <Item data={item} />}
         contentContainerStyle={{
+          flexDirection: "column-reverse", // inverte a ordem da lista
           paddingTop: 16,
           paddingHorizontal: 24,
           gap: 8,
