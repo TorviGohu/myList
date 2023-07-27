@@ -7,6 +7,7 @@ export default function Input({ ...rest }) {
       style={styles.container}
       placeholder="Adicione algo a sua lista"
       placeholderTextColor={COLORS.gray300}
+      {...rest}
     />
   );
 }
