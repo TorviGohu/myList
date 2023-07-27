@@ -58,14 +58,35 @@ export default function App() {
         <Button onPress={handleAddItem} />
       </View>
 
+      <View style={styles.info}>
+        <View style={styles.typeView}>
+          <Text style={styles.type}>Criadas</Text>
+
+          <View style={styles.qtdView}>
+            <Text style={styles.qtdNumber}>0</Text>
+          </View>
+        </View>
+
+        <View style={styles.typeView}>
+          <Text style={[styles.type, { color: COLORS.blue500 }]}>
+            Concluídas
+          </Text>
+
+          <View style={styles.qtdView}>
+            <Text style={styles.qtdNumber}>0</Text>
+          </View>
+        </View>
+      </View>
+
       <FlatList
         data={list}
         keyExtractor={(item) => item}
         renderItem={({ item }) => <Item data={item} />}
         contentContainerStyle={{
           flexDirection: "column-reverse", // inverte a ordem da lista
-          paddingTop: 16,
+          paddingTop: 8,
           paddingHorizontal: 24,
+          paddingBottom: 48,
           gap: 8,
         }}
         ListEmptyComponent={() => renderEmptyList()}
@@ -94,5 +115,37 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
     marginTop: 16,
+  },
+  typeView: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  info: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 32,
+    marginHorizontal: 24,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.gray500,
+  },
+  type: {
+    color: COLORS.ciano,
+    fontWeight: "bold",
+  },
+  qtdView: {
+    backgroundColor: COLORS.gray500,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 99,
+    marginLeft: 8,
+  },
+  qtdNumber: {
+    fontSize: 13,
+    color: COLORS.white,
+    fontWeight: "bold",
   },
 });
