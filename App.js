@@ -1,6 +1,7 @@
 import "react-native-gesture-handler";
 import { useState } from "react";
 import {
+  Alert,
   FlatList,
   Image,
   SafeAreaView,
@@ -60,6 +61,34 @@ export default function App() {
     setListConcluded((currentState) => [...currentState, itemSelected]); // adiciona o item selecionado na lista de concluidos
   }
 
+  function handleRemoveTask(itemToRemove) {
+    console.log("remover:", itemToRemove);
+
+    Alert.alert(
+      "Remover tarefa",
+      `Deseja remover essa tarefa?\n"${itemToRemove}"`, // quebra de linha
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Remover",
+          onPress: () => {
+            setList((currentState) =>
+              currentState.filter((tasks) => tasks !== itemToRemove)
+            );
+
+            // remover também da lista de concluidos
+            setListConcluded((currentState) =>
+              currentState.filter((tasks) => tasks !== itemToRemove)
+            );
+          },
+        },
+      ]
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -99,7 +128,11 @@ export default function App() {
         data={list}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
-          <Item data={item} checked={handleSelectTask} /> //  checked é a função, enviada pro componente
+          <Item
+            data={item}
+            checked={handleSelectTask} //  checked é a função, enviada pro componente
+            remove={handleRemoveTask}
+          />
         )}
         contentContainerStyle={{
           flexDirection: "column-reverse", // inverte a ordem da lista
