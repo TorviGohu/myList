@@ -1,4 +1,7 @@
+import "react-native-gesture-handler";
+import { useState } from "react";
 import {
+  Alert,
   FlatList,
   Image,
   SafeAreaView,
@@ -7,13 +10,12 @@ import {
   Text,
   View,
 } from "react-native";
-import Header from "./src/components/Header";
-import { COLORS } from "./src/theme/colors";
-import Input from "./src/components/Input";
-import Button from "./src/components/Button";
 import EmptyIcon from "./src/assets/clipboard.png";
+import Button from "./src/components/Button";
+import Header from "./src/components/Header";
+import Input from "./src/components/Input";
 import Item from "./src/components/Item";
-import { useState } from "react";
+import { COLORS } from "./src/theme/colors";
 
 export default function App() {
   const [task, setTask] = useState("");
@@ -59,6 +61,34 @@ export default function App() {
     setListConcluded((currentState) => [...currentState, itemSelected]); // adiciona o item selecionado na lista de concluidos
   }
 
+  function handleRemoveTask(itemToRemove) {
+    console.log("remover:", itemToRemove);
+
+    Alert.alert(
+      "Remover tarefa",
+      `Deseja remover essa tarefa?\n"${itemToRemove}"`, // quebra de linha
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Remover",
+          onPress: () => {
+            setList((currentState) =>
+              currentState.filter((tasks) => tasks !== itemToRemove)
+            );
+
+            // remover também da lista de concluidos
+            setListConcluded((currentState) =>
+              currentState.filter((tasks) => tasks !== itemToRemove)
+            );
+          },
+        },
+      ]
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -98,12 +128,16 @@ export default function App() {
         data={list}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
-          <Item data={item} checked={handleSelectTask} /> //  checked é a função, enviada pro componente
+          <Item
+            data={item}
+            checked={handleSelectTask} //  checked é a função, enviada pro componente
+            remove={handleRemoveTask}
+          />
         )}
         contentContainerStyle={{
           flexDirection: "column-reverse", // inverte a ordem da lista
           paddingTop: 8,
-          paddingHorizontal: 24,
+          // paddingHorizontal: 24,
           paddingBottom: 48,
           gap: 8,
         }}
